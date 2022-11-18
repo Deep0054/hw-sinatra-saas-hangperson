@@ -1,4 +1,7 @@
 class WordGuesserGame
+
+  # add the necessary class methods, attributes, etc. here
+  # to make the tests in spec/hangperson_game_spec.rb pass.
   attr_accessor :word, :guesses, :wrong_guesses
   # Get a word from remote "random word" service
 
@@ -16,7 +19,7 @@ class WordGuesserGame
   end
 
   def new word
-    @wordGuesserGame = WordGuesserGame.new(word)
+    @game = WordGuesserGame.new(word)
   end
 
   def guess char

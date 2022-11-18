@@ -1,8 +1,9 @@
 class WordGuesserGame
 
   # add the necessary class methods, attributes, etc. here
-  # to make the tests in spec/hangperson_game_spec.rb pass.
+  # to make the tests in spec/wordguesser_game_spec.rb pass.
   attr_accessor :word, :guesses, :wrong_guesses
+
   # Get a word from remote "random word" service
 
   def initialize(word)
@@ -11,18 +12,24 @@ class WordGuesserGame
     @wrong_guesses = ""
   end
 
+  # You can test it by installing irb via $ gem install irb
+  # and then running $ irb -I. -r app.rb
+  # And then in the irb: irb(main):001:0> WordGuesserGame.get_random_word
+  #  => "cooking"   <-- some random word
   def self.get_random_word
     require 'uri'
     require 'net/http'
-    uri = URI('http://watchout4snakes.com/wo4snakes/Random/RandomWord')
-    Net::HTTP.post_form(uri ,{}).body
+    uri = URI('http://randomword.saasbook.info/RandomWord')
+    Net::HTTP.new('randomword.saasbook.info').start { |http|
+      return http.post(uri, "").body
+    }
   end
 
-  def new word
-    @game = WordGuesserGame.new(word)
+  def new(word)
+    @hangpersonGame = HangpersonGame.new(word)
   end
 
-  def guess char
+  def guess(char)
     if char =~ /[[:alpha:]]/
       char.downcase!
       if @word.include? char and !@guesses.include? char
@@ -31,7 +38,9 @@ class WordGuesserGame
       elsif !@wrong_guesses.include? char and !@word.include? char
         @wrong_guesses.concat char
         return true
-      else return false end
+      else
+        return false
+      end
     else
       char = :invalid
       raise ArgumentError
@@ -59,4 +68,5 @@ class WordGuesserGame
     if counter == @word.length then :win
     else :play end
   end
+
 end

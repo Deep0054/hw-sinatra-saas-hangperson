@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'wordguesser_game'
+require '../lib/wordguesser_game'
 
 describe WordGuesserGame do
   # helper function: make several guesses
